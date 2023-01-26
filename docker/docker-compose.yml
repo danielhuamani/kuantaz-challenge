@@ -1,13 +1,13 @@
 version: '3.6'
 services:
   kuantaz_db:
-    image: "mdillon/postgis:10"
-    ports:
-      - "5436:5432"
+    image: "postgres:14"
     env_file:
-      - ./.env
+        - ./.env
+    ports:
+        - "5436:5432"
     volumes:
-      - ./volumes/postgres:/data
+        - ../volumes/postgres:/data
   kuantaz_api:
     build:
       context: ../
@@ -23,5 +23,3 @@ services:
       - ../src:/www/src
     depends_on:
       - kuantaz_db
-    tty: true
-    stdin_open: true

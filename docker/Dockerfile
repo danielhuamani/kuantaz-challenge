@@ -13,7 +13,7 @@ COPY ./docker/entrypoint.sh /entrypoint.sh
 # RUN chmod +x /entrypoint.sh
 
 ENV PYTHONUNBUFFERED 1
-ENV FLASK_APP src.flask_app.py
+ENV FLASK_APP src/flask_app.py
 ENV FLASK_DEBUG 1
 ENV FLASK_RUN_PORT 8000
 EXPOSE 8000

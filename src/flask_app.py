@@ -4,6 +4,7 @@ from flask_openapi3 import Info, Tag
 from flask_openapi3 import OpenAPI
 from apps.core import routers
 from apps.core.database import alchemy
+from apps.core.database import models
 from apps.core.database.configuration import get_postgresql_url
 from settings import get_settings
 
@@ -22,7 +23,7 @@ def create_app(settings):
 def init_databases(app: Flask) -> Flask:
     alchemy.db.init_app(app)
     alchemy.migrate.init_app(
-        app, alchemy.db, directory="apps/core/database/migrations"
+        app, alchemy.db, directory="src/apps/core/database/migrations"
     )
     return app
 

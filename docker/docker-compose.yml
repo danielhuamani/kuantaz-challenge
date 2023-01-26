@@ -1,0 +1,27 @@
+version: '3.6'
+services:
+  kuantaz_db:
+    image: "mdillon/postgis:10"
+    ports:
+      - "5436:5432"
+    env_file:
+      - ./.env
+    volumes:
+      - ./volumes/postgres:/data
+  kuantaz_api:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    container_name: "kuantaz_api"
+    command: ["sh", "/entrypoint.sh"]
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./.env
+    volumes:
+      - ../src:/www/src
+    depends_on:
+      - kuantaz_db
+    tty: true
+    stdin_open: true

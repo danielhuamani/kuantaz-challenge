@@ -2,7 +2,7 @@
 from flask import Flask
 from flask_openapi3 import Info, Tag
 from flask_openapi3 import OpenAPI
-from apps.core import routers
+from apps.company.rest import routers as company_routers
 from apps.core.database import alchemy
 from apps.core.database import models
 from apps.core.database.configuration import get_postgresql_url
@@ -10,7 +10,7 @@ from settings import get_settings
 
 def register_routers(app: Flask) -> Flask:
 
-    app.register_api(routers.api)
+    app.register_api(company_routers.api)
     return app
 
 def create_app(settings):

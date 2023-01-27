@@ -19,6 +19,14 @@ class CompanyModel(BaseModel):
     description = db.Column(db.String)
     address = db.Column(db.String)
 
+    projects = db.relationship("ProjectModel", back_populates="company")
+
+    def __init__(self, name, description, address):
+        self.name = name
+        self.description = description
+        self.address = address
+        
+
     def __repr__(self):
         return f"<company name: {self.name}"
 
@@ -48,6 +56,8 @@ class UserModel(BaseModel):
     birth_date = db.Column(db.DateTime)
     occupation = db.Column(db.String)
     age = db.Column(db.Integer)
+
+    projects = db.relationship("ProjectModel", back_populates="user")
 
     def __repr__(self):
         return f"<user name: {self.name}"

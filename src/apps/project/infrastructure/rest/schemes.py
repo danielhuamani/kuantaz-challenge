@@ -5,12 +5,12 @@ from pydantic import BaseModel, validator
 
 class ProjectBody(BaseModel):
 
-    name : str
-    description : str
-    start_date : date
-    end_date : date
-    user_id : int
-    company_id : int
+    name: str
+    description: str
+    start_date: date
+    end_date: date
+    user_id: int
+    company_id: int
 
     @validator("end_date")
     def validate_end_date(cls, v, values, **kwargs):
@@ -19,26 +19,27 @@ class ProjectBody(BaseModel):
             return v
         raise ValueError("end date must be greater than start date")
 
+
 class ProjectResponse(BaseModel):
 
-    id : int
-    name : str
-    description : str
-    start_date : date
-    end_date : date
-    user_id : int
-    company_id : int
+    id: int
+    name: str
+    description: str
+    start_date: date
+    end_date: date
+    user_id: int
+    company_id: int
 
 
 class ProjectListResponse(BaseModel):
-    __root__ : List[ProjectResponse]
+    __root__: List[ProjectResponse]
 
 
 class ProjectDaysResponse(BaseModel):
 
-    name : str
-    end_date : date
-    days : Optional[int]
+    name: str
+    end_date: date
+    days: Optional[int]
 
     class Config:
         exclude = {"end_date"}
@@ -53,12 +54,11 @@ class ProjectDaysResponse(BaseModel):
 
 
 class ProjectDaysListResponse(BaseModel):
-    __root__ : List[ProjectDaysResponse]
-
+    __root__: List[ProjectDaysResponse]
 
 
 class ProjectUpdatePath(BaseModel):
-    project_id : int
+    project_id: int
 
 
 class ProjectDeletePath(ProjectUpdatePath):

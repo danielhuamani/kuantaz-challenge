@@ -1,8 +1,22 @@
 from http import HTTPStatus
 from flask import jsonify, request
 from flask_openapi3 import APIBlueprint
-from .schemes import (UserBody, UserResponse, UserListResponse, UserProjectResponse, UserUpdatePath, UserDeletePath, UserFilterQuery)
-from apps.user.application.services import UserCreateService, UserListService, UserDetailService, UserUpdateService, UserDeleteService
+from .schemes import (
+    UserBody,
+    UserResponse,
+    UserListResponse,
+    UserProjectResponse,
+    UserUpdatePath,
+    UserDeletePath,
+    UserFilterQuery,
+)
+from apps.user.application.services import (
+    UserCreateService,
+    UserListService,
+    UserDetailService,
+    UserUpdateService,
+    UserDeleteService,
+)
 from apps.user.infrastructure.repository import UserRepository
 from apps.user.infrastructure.handle_errors import user_not_found
 from apps.user.domain.exceptions import UserNotFoundException
@@ -17,25 +31,22 @@ api = APIBlueprint(
 
 @api.get(
     "/",
-    responses={
-        "200": UserListResponse
-    },
+    responses={"200": UserListResponse},
 )
 def user_list(query: UserFilterQuery):
     repo = UserRepository
     document = query.document
     results = UserListService.execute(repo, document)
-    response = UserListResponse(__root__=[
-        UserProjectResponse(**result.dict()).dict() for result in results
-    ])
-    
+    response = UserListResponse(
+        __root__=[UserProjectResponse(**result.dict()).dict() for result in results]
+    )
+
     return response.json(), HTTPStatus.OK
+
 
 @api.get(
     "/<int:user_id>/",
-    responses={
-        "200": UserListResponse
-    },
+    responses={"200": UserListResponse},
 )
 def user_detail(path: UserUpdatePath):
     repo = UserRepository
@@ -44,25 +55,20 @@ def user_detail(path: UserUpdatePath):
     return UserResponse(**result.dict()).json(), HTTPStatus.OK
 
 
-
 @api.post(
     "/",
-    responses={
-        "201": UserResponse
-    },
+    responses={"201": UserResponse},
 )
 def user_create(body: UserBody):
     repo = UserRepository
-    result = UserCreateService.execute(repo,body)
-    
+    result = UserCreateService.execute(repo, body)
+
     return UserResponse(**result.dict()).json(), HTTPStatus.CREATED
 
 
 @api.put(
     "/<int:user_id>/",
-    responses={
-        "200": UserResponse
-    },
+    responses={"200": UserResponse},
 )
 def user_update(body: UserBody, path: UserUpdatePath):
     repo = UserRepository
@@ -73,16 +79,13 @@ def user_update(body: UserBody, path: UserUpdatePath):
 
 @api.delete(
     "/<int:user_id>/",
-    responses={
-    },
+    responses={},
 )
 def user_delete(path: UserDeletePath):
     repo = UserRepository
-    user_id  = path.user_id
+    user_id = path.user_id
     UserDeleteService.execute(repo, user_id)
     return {}, HTTPStatus.NO_CONTENT
 
 
-api.register_error_handler(
-    UserNotFoundException, user_not_found
-)
+api.register_error_handler(UserNotFoundException, user_not_found)

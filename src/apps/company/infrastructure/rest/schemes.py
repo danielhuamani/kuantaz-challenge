@@ -6,17 +6,17 @@ from apps.company.infrastructure.constants import GOOGLE_MAPS_URL
 
 class CompanyBody(BaseModel):
 
-    name : str
-    description : str
-    address : str
+    name: str
+    description: str
+    address: str
 
 
 class CompanyGoogleAddressResponse(BaseModel):
-    id : int
-    created_at : datetime
-    name : str
-    description : str
-    address : str
+    id: int
+    created_at: datetime
+    name: str
+    description: str
+    address: str
     google_address: Optional[str]
 
     @validator("google_address", pre=True)
@@ -30,63 +30,66 @@ class CompanyGoogleAddressResponse(BaseModel):
 
 
 class CompanyResponse(BaseModel):
-    id : int
-    created_at : datetime
-    name : str
-    description : str
-    address : str
+    id: int
+    created_at: datetime
+    name: str
+    description: str
+    address: str
 
 
 class CompanyListResponse(BaseModel):
-    __root__ : List[CompanyResponse]
+    __root__: List[CompanyResponse]
 
 
 class CompanyListGoogleAddressResponse(BaseModel):
-    __root__ : List[CompanyGoogleAddressResponse]
+    __root__: List[CompanyGoogleAddressResponse]
 
 
 class CompanyUpdatePath(BaseModel):
-    company_id : int
+    company_id: int
 
 
 class CompanyDeletePath(CompanyUpdatePath):
     ...
+
 
 class CompanyDetailPath(CompanyUpdatePath):
     ...
 
 
 class CompanyProjectUserNestedDomain(BaseModel):
-    id : int
-    name : str
-    last_name : str
-    document : str
-    birth_date : date
-    occupation : str
-    age : int
+    id: int
+    name: str
+    last_name: str
+    document: str
+    birth_date: date
+    occupation: str
+    age: int
 
     class Config:
         orm_mode = True
 
+
 class CompanyProjectNestedResponse(BaseModel):
-    id : int
-    name : str
-    description : str
-    start_date : date
-    end_date : date
-    user : CompanyProjectUserNestedDomain
+    id: int
+    name: str
+    description: str
+    start_date: date
+    end_date: date
+    user: CompanyProjectUserNestedDomain
 
     class Config:
         orm_mode = True
 
 
 class CompanyNestedResponse(BaseModel):
-    id : int
-    created_at : datetime
-    name : str
-    description : str
-    address : str
-    projects : List[CompanyProjectNestedResponse]
+    id: int
+    created_at: datetime
+    name: str
+    description: str
+    address: str
+    projects: List[CompanyProjectNestedResponse]
+
 
 class CompanyNestedListResponse(BaseModel):
-    __root__ : List[CompanyNestedResponse]
+    __root__: List[CompanyNestedResponse]

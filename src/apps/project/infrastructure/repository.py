@@ -3,8 +3,8 @@ from apps.core.database.models import ProjectModel
 from apps.project.domain.models import ProjectDomain
 from apps.project.domain.exceptions import ProjectNotFoundException
 
-class ProjectRepository:
 
+class ProjectRepository:
     @classmethod
     def create(cls, body):
         project = ProjectModel(
@@ -18,7 +18,7 @@ class ProjectRepository:
         db.session.add(project)
         db.session.commit()
         return ProjectDomain.from_orm(project)
-    
+
     @classmethod
     def get_all(cls):
         projects = ProjectModel.query.all()
@@ -29,14 +29,13 @@ class ProjectRepository:
         projects = ProjectModel.query.filter_by(**kwargs)
         return [ProjectDomain.from_orm(project) for project in projects]
 
-
     @classmethod
     def get_by_id(cls, id):
         project = ProjectModel.query.filter_by(id=id).first()
         if project is None:
             raise ProjectNotFoundException(project_id=id)
         return project
-    
+
     @classmethod
     def update(cls, body, id):
         project = cls.get_by_id(id=id)

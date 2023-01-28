@@ -3,19 +3,17 @@ from apps.core.database.models import CompanyModel
 from apps.company.domain.models import CompanyDomain, CompanyWithProjectAndUserDomain
 from apps.company.domain.exceptions import CompanyNotFoundException
 
-class CompanyRepository:
 
+class CompanyRepository:
     @classmethod
     def create(cls, body):
         company = CompanyModel(
-            name=body.name,
-            address=body.address,
-            description=body.description
+            name=body.name, address=body.address, description=body.description
         )
         db.session.add(company)
         db.session.commit()
         return CompanyDomain.from_orm(company)
-    
+
     @classmethod
     def get_all(cls):
         companies = CompanyModel.query.all()
@@ -27,8 +25,9 @@ class CompanyRepository:
             companies = CompanyModel.query.filter_by(**kwargs)
         else:
             companies = CompanyModel.query.all()
-        return [CompanyWithProjectAndUserDomain.from_orm(company) for company in companies]
-
+        return [
+            CompanyWithProjectAndUserDomain.from_orm(company) for company in companies
+        ]
 
     @classmethod
     def get_by_id(cls, id):
@@ -36,7 +35,7 @@ class CompanyRepository:
         if company is None:
             raise CompanyNotFoundException(company_id=id)
         return company
-    
+
     @classmethod
     def update(cls, body, id):
         company = cls.get_by_id(id=id)
@@ -47,7 +46,7 @@ class CompanyRepository:
         db.session.commit()
         db.session.refresh(company)
         return CompanyDomain.from_orm(company)
-    
+
     @classmethod
     def delete(cls, id):
         company = cls.get_by_id(id=id)

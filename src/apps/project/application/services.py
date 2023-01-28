@@ -1,5 +1,4 @@
 class ProjectCreateService:
-
     @classmethod
     def execute(self, repository, user_repository, company_repository, body):
         user_repository.get_instance(body.user_id)
@@ -9,7 +8,6 @@ class ProjectCreateService:
 
 
 class ProjectListService:
-
     @classmethod
     def execute(self, repository):
         projects = repository.get_all()
@@ -17,9 +15,10 @@ class ProjectListService:
 
 
 class ProjectUpdateService:
-
     @classmethod
-    def execute(self, repository, user_repository, company_repository, body, project_id):
+    def execute(
+        self, repository, user_repository, company_repository, body, project_id
+    ):
         user_repository.get_instance(body.user_id)
         company_repository.get_by_id(body.company_id)
         project = repository.update(body, project_id)
@@ -27,7 +26,6 @@ class ProjectUpdateService:
 
 
 class ProjectDeleteService:
-
     @classmethod
     def execute(self, repository, project_id):
         repository.delete(project_id)

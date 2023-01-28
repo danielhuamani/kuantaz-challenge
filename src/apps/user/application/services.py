@@ -1,5 +1,4 @@
 class UserCreateService:
-
     @classmethod
     def execute(self, repository, body):
         user = repository.create(body)
@@ -7,7 +6,6 @@ class UserCreateService:
 
 
 class UserListService:
-
     @classmethod
     def execute(self, repository, document):
         if document:
@@ -18,14 +16,13 @@ class UserListService:
 
 
 class UserDetailService:
-
     @classmethod
     def execute(self, repository, user_id):
         user = repository.get_instance(user_id)
         return user
 
-class UserUpdateService:
 
+class UserUpdateService:
     @classmethod
     def execute(self, repository, body, user_id):
         user = repository.update(body, user_id)
@@ -33,7 +30,6 @@ class UserUpdateService:
 
 
 class UserDeleteService:
-
     @classmethod
     def execute(self, repository, user_id):
         repository.delete(user_id)

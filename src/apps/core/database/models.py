@@ -6,7 +6,6 @@ import json
 from typing import List
 
 
-
 from .alchemy import BaseModel, db
 
 
@@ -25,10 +24,10 @@ class CompanyModel(BaseModel):
         self.name = name
         self.description = description
         self.address = address
-        
 
     def __repr__(self):
         return f"<company name: {self.name}"
+
 
 class ProjectModel(BaseModel):
     __tablename__ = "project"
@@ -45,6 +44,7 @@ class ProjectModel(BaseModel):
 
     def __repr__(self):
         return f"<project name: {self.name}"
+
 
 class UserModel(BaseModel):
     __tablename__ = "user"

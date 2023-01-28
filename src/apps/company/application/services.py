@@ -1,5 +1,4 @@
 class CompanyCreateService:
-
     @classmethod
     def execute(self, repository, body):
         company_domain = repository.create(body)
@@ -7,7 +6,6 @@ class CompanyCreateService:
 
 
 class CompanyListService:
-
     @classmethod
     def execute(self, repository):
         companies = repository.get_all()
@@ -15,7 +13,6 @@ class CompanyListService:
 
 
 class CompanyUpdateService:
-
     @classmethod
     def execute(self, repository, body, company_id):
         company = repository.update(body, company_id)
@@ -23,7 +20,6 @@ class CompanyUpdateService:
 
 
 class CompanyDeleteService:
-
     @classmethod
     def execute(self, repository, company_id):
         repository.delete(company_id)
@@ -31,7 +27,6 @@ class CompanyDeleteService:
 
 
 class CompanyDetailService:
-
     @classmethod
     def execute(self, repository, company_id):
         company = repository.get_all_nested(id=company_id)

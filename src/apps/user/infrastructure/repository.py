@@ -3,22 +3,22 @@ from apps.core.database.models import UserModel
 from apps.user.domain.models import UserDomain
 from apps.user.domain.exceptions import UserNotFoundException
 
-class UserRepository:
 
+class UserRepository:
     @classmethod
     def create(cls, body):
         user = UserModel(
-            name = body.name,
-            last_name = body.last_name,
-            document = body.document,
-            birth_date = body.birth_date,
-            occupation = body.occupation,
-            age = body.age
+            name=body.name,
+            last_name=body.last_name,
+            document=body.document,
+            birth_date=body.birth_date,
+            occupation=body.occupation,
+            age=body.age,
         )
         db.session.add(user)
         db.session.commit()
         return UserDomain.from_orm(user)
-    
+
     @classmethod
     def get_all(cls):
         users = UserModel.query.all()
@@ -29,19 +29,17 @@ class UserRepository:
         users = UserModel.query.filter_by(**kwargs)
         return [UserDomain.from_orm(user) for user in users]
 
-
     @classmethod
     def _get_by_id(cls, id):
         user = UserModel.query.filter_by(id=id).first()
         if user is None:
             raise UserNotFoundException(user_id=id)
         return user
-    
+
     @classmethod
     def get_instance(cls, id):
         user = cls._get_by_id(id=id)
         return UserDomain.from_orm(user)
-    
 
     @classmethod
     def update(cls, body, id):

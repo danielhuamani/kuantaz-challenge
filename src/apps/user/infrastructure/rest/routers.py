@@ -1,8 +1,8 @@
 from http import HTTPStatus
 from flask import jsonify, request
 from flask_openapi3 import APIBlueprint
-from .schemes import (UserBody, UserResponse, UserListResponse, UserUpdatePath, UserDeletePath, UserFilterQuery)
-from apps.user.application.services import UserCreateService, UserListService, UserUpdateService, UserDeleteService
+from .schemes import (UserBody, UserResponse, UserListResponse, UserProjectResponse, UserUpdatePath, UserDeletePath, UserFilterQuery)
+from apps.user.application.services import UserCreateService, UserListService, UserDetailService, UserUpdateService, UserDeleteService
 from apps.user.infrastructure.repository import UserRepository
 from apps.user.infrastructure.handle_errors import user_not_found
 from apps.user.domain.exceptions import UserNotFoundException
@@ -26,10 +26,23 @@ def user_list(query: UserFilterQuery):
     document = query.document
     results = UserListService.execute(repo, document)
     response = UserListResponse(__root__=[
-        UserResponse(**result.dict()).dict() for result in results
+        UserProjectResponse(**result.dict()).dict() for result in results
     ])
     
     return response.json(), HTTPStatus.OK
+
+@api.get(
+    "/<int:user_id>/",
+    responses={
+        "200": UserListResponse
+    },
+)
+def user_detail(path: UserUpdatePath):
+    repo = UserRepository
+    user_id = path.user_id
+    result = UserDetailService.execute(repo, user_id)
+    return UserResponse(**result.dict()).json(), HTTPStatus.OK
+
 
 
 @api.post(

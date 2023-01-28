@@ -31,15 +31,21 @@ class UserRepository:
 
 
     @classmethod
-    def get_by_id(cls, id):
+    def _get_by_id(cls, id):
         user = UserModel.query.filter_by(id=id).first()
         if user is None:
             raise UserNotFoundException(user_id=id)
         return user
     
     @classmethod
+    def get_instance(cls, id):
+        user = cls._get_by_id(id=id)
+        return UserDomain.from_orm(user)
+    
+
+    @classmethod
     def update(cls, body, id):
-        user = cls.get_by_id(id=id)
+        user = cls._get_by_id(id=id)
         user.name = body.name
         user.last_name = body.last_name
         user.document = body.document
@@ -53,6 +59,6 @@ class UserRepository:
 
     @classmethod
     def delete(cls, id):
-        user = cls.get_by_id(id=id)
+        user = cls._get_by_id(id=id)
         db.session.delete(user)
         db.session.commit()

@@ -52,7 +52,7 @@ class UserModel(BaseModel):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String)
     last_name = db.Column(db.String)
-    document = db.Column(db.DateTime)
+    document = db.Column(db.String)
     birth_date = db.Column(db.DateTime)
     occupation = db.Column(db.String)
     age = db.Column(db.Integer)

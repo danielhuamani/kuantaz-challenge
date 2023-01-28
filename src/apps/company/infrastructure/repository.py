@@ -1,6 +1,6 @@
 from apps.core.database.alchemy import db
 from apps.core.database.models import CompanyModel
-from apps.company.domain.models import CompanyDomain
+from apps.company.domain.models import CompanyDomain, CompanyWithProjectAndUserDomain
 from apps.company.domain.exceptions import CompanyNotFoundException
 
 class CompanyRepository:
@@ -20,6 +20,15 @@ class CompanyRepository:
     def get_all(cls):
         companies = CompanyModel.query.all()
         return [CompanyDomain.from_orm(company) for company in companies]
+
+    @classmethod
+    def get_all_nested(cls, **kwargs):
+        if kwargs:
+            companies = CompanyModel.query.filter_by(**kwargs)
+        else:
+            companies = CompanyModel.query.all()
+        return [CompanyWithProjectAndUserDomain.from_orm(company) for company in companies]
+
 
     @classmethod
     def get_by_id(cls, id):

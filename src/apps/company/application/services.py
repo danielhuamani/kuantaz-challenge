@@ -28,3 +28,11 @@ class CompanyDeleteService:
     def execute(self, repository, company_id):
         repository.delete(company_id)
         return company_id
+
+
+class CompanyDetailService:
+
+    @classmethod
+    def execute(self, repository, company_id):
+        company = repository.get_all_nested(id=company_id)
+        return company

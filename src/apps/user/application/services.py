@@ -17,6 +17,13 @@ class UserListService:
         return users
 
 
+class UserDetailService:
+
+    @classmethod
+    def execute(self, repository, user_id):
+        user = repository.get_instance(user_id)
+        return user
+
 class UserUpdateService:
 
     @classmethod

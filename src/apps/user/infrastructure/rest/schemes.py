@@ -1,6 +1,7 @@
 from typing import List, Optional
 from datetime import date
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
+from apps.project.infrastructure.rest.schemes import ProjectResponse
 
 
 class UserBody(BaseModel):
@@ -23,8 +24,18 @@ class UserResponse(BaseModel):
     age : int
 
 
+class UserProjectResponse(BaseModel):
+    id : int
+    name : str
+    last_name : str
+    document : str
+    birth_date : date
+    occupation : str
+    age : int
+    projects: List[ProjectResponse] = []
+
 class UserListResponse(BaseModel):
-    __root__ : List[UserResponse]
+    __root__ : List[UserProjectResponse]
 
 
 class UserUpdatePath(BaseModel):
